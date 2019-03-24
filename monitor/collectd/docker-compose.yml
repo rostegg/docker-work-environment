@@ -1,0 +1,31 @@
+version: '3'
+services:
+  collectd:
+    image: fr3nd/collectd
+    privileged: true
+    network_mode: host
+    volumes:
+      - /proc:/mnt/proc:ro
+      - ./config/collectd.conf:/etc/collectd/collectd.conf
+  influxdb:
+    image: influxdb
+    ports:
+      - "8083:8083"
+      - "8086:8086"
+      - "25826:25826/udp"
+    environment:
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - ./influxdb-volume:/var/lib/influxdb
+      - ./config/influxdb.conf:/etc/influxdb/influxdb.conf
+      - ./config/types.db:/usr/share/collectd/types.db:ro
+  grafana:
+    image: grafana/grafana
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - /var/lib/grafana
