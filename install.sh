@@ -5,9 +5,20 @@ clear
 sudo apt update
 echo -e "Installing \033[0;32docker.io\033[0m and \033[0;32mdocker-compose\033[0m"
 
-# or use "sudo snap install docker", if Snappy installed
-sudo apt install docker.io
-sudo apt install docker-compose
+: '
+Or use "sudo snap install docker" if Snappy installed
+
+For removing previouse version:
+sudo apt purge \
+    docker.io \
+    docker-compose
+OR
+sudo snap remove docker 
+'
+
+sudo apt install \
+    docker.io \
+    docker-compose
 
 sudo groupadd docker
 sudo usermod -aG docker $USER
