@@ -1,6 +1,19 @@
 #!/bin/bash
 
 clear
+
+sudo apt update
+echo -e "Installing \033[0;32docker.io\033[0m and \033[0;32mdocker-compose\033[0m"
+
+# or use "sudo snap install docker", if Snappy installed
+sudo apt install docker.io
+sudo apt install docker-compose
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
+
 echo -e "Copy \033[0;32micons8-docker.svg\033[0m to \033[0;32m/usr/share/icons/hicolor/scalable/apps\033[0m"
 cp icons8-docker.svg /usr/share/icons/hicolor/scalable/apps/
 
@@ -45,9 +58,3 @@ while IFS=  read -r -d $'\0'; do
     chmod +x ${HOME}/Desktop/${SHORTCUT_NAME}.desktop
     echo -e "Created \033[0;32m${SHORTCUT_NAME}.desktop\033[0m shortcut in \033[0;32m${HOME}/Desktop\033[0m"
 done < <(find . -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
-
-
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
-sudo chmod g+rwx "$HOME/.docker" -R
