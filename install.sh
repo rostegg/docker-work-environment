@@ -41,7 +41,7 @@ INSTALL_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && 
 while IFS=  read -r -d $'\0'; do
     RUN_SCRIPT_PATH=$(realpath $REPLY)
     select_shortcut_name $RUN_SCRIPT_PATH
-    echo -e "Created \033[0;32m${SHORTCUT_NAME}.desktop\033[0m shortcut in \033[0;32m${HOME}/Desktop\033[0m"
     echo "$(sed 's|@1|'$SHORTCUT_NAME'|g; s|@2|'$RUN_SCRIPT_PATH'|g' <<< $SHORTCUT_TEMPLATE)" > "${HOME}/Desktop/${SHORTCUT_NAME}.desktop"
     chmod +x ${HOME}/Desktop/${SHORTCUT_NAME}.desktop
+    echo -e "Created \033[0;32m${SHORTCUT_NAME}.desktop\033[0m shortcut in \033[0;32m${HOME}/Desktop\033[0m"
 done < <(find . -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
