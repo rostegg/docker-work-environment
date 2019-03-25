@@ -45,3 +45,9 @@ while IFS=  read -r -d $'\0'; do
     chmod +x ${HOME}/Desktop/${SHORTCUT_NAME}.desktop
     echo -e "Created \033[0;32m${SHORTCUT_NAME}.desktop\033[0m shortcut in \033[0;32m${HOME}/Desktop\033[0m"
 done < <(find . -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
+
+
+sudo groupadd docker
+sudo usermod -aG docker $USER
+sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+sudo chmod g+rwx "$HOME/.docker" -R
