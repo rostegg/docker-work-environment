@@ -25,3 +25,5 @@ services:
       - ME_CONFIG_MONGODB_SERVER=mongo_dev
     links:
       - mongo_dev
+    depends_on:
+      - mongo_dev
