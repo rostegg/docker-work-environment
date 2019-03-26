@@ -2,28 +2,33 @@
 
 clear
 
-sudo apt update
-echo -e "Installing \033[0;32docker.io\033[0m and \033[0;32mdocker-compose\033[0m"
+read -e -p $'\e[32mInstall docker? ("NO" by default):\e[0m ' INSTALL_DOCKER
 
-: '
-Or use "sudo snap install docker" if Snappy installed
+if [ ! -z "$INSTALL_DOCKER" ]
+then
+    sudo apt update
+    echo -e "Installing \033[0;32docker.io\033[0m and \033[0;32mdocker-compose\033[0m"
 
-For removing previouse version:
-sudo apt purge \
-    docker.io \
-    docker-compose
-OR
-sudo snap remove docker 
-'
+    : '
+    Or use "sudo snap install docker" if Snappy installed
 
-sudo apt install \
-    docker.io \
-    docker-compose
+    For removing previouse version:
+    sudo apt purge \
+        docker.io \
+        docker-compose
+    OR
+    sudo snap remove docker 
+    '
 
-sudo groupadd docker
-sudo usermod -aG docker $USER
-sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
-sudo chmod g+rwx "$HOME/.docker" -R
+    sudo apt install \
+        docker.io \
+        docker-compose
+
+    sudo groupadd docker
+    sudo usermod -aG docker $USER
+    sudo chown "$USER":"$USER" /home/"$USER"/.docker -R
+    sudo chmod g+rwx "$HOME/.docker" -R
+fi
 
 echo -e "Copy \033[0;32micons8-docker.svg\033[0m to \033[0;32m/usr/share/icons/hicolor/scalable/apps\033[0m"
 cp icons8-docker.svg /usr/share/icons/hicolor/scalable/apps/
