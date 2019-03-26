@@ -1,0 +1,60 @@
+version: '3'
+
+services:
+  influxdb:
+    image: influxdb
+    ports:
+      - "8086:8086"
+    environment:
+      - INFLUXDB_ADMIN_USER=admin
+      - INFLUXDB_ADMIN_PASSWORD=admin
+    volumes:
+      - ./data/influxdb:/var/lib/influxdb
+      - ./config/influxdb.conf:/etc/influxdb/influxdb.conf
+      - ./config/types.db:/usr/share/collectd/types.db:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+  grafana:
+    image: grafana/grafana
+    depends_on:
+        - influxdb
+    ports:
+      - "3000:3000"
+    environment:
+      - GF_SECURITY_ADMIN_USER=admin
+      - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      - /var/lib/grafana
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+  jmxtrans:
+    image: jmxtrans/jmxtrans:latest
+    depends_on:
+        - influxdb
+    links:
+        - influxdb
+        - grafana
+    environment:
+        - JMX_HOST_TEST=localhost
+        - JMX_PORT_TEST=17900
+        - JMX_ALIAS_TEST=TEST
+        - INFLUXDB_USER=admin
+        - INFLUXDB_PASSWORD=admin
+        - INFLUXDB_NAME=jmx-data-influx
+        - INFLUXDB_URL=http://influxdb:8086
+    volumes:
+        - /etc/localtime:/etc/localtime:ro
+        - /etc/timezone:/etc/timezone:ro
+        - ./config/influxdb.json.tmpl:/var/lib/jmxtrans/influxdb.json.tmpl
+        - ./config/grafanadashboard.json.tmpl:/dashboards/grafanadashboard.json.tmpl
+        - ./scripts/docker-entrypoint.sh:/docker-entrypoint.sh
+  chronograf:
+    image: chronograf
+    volumes:
+      - ./data/chronograf:/var/lib/chronograf
+    environment:
+      INFLUXDB_URL: http://influxdb:8086
+    ports:
+      - "8888:8888"
+    links:
+      - influxdb
