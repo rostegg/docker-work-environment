@@ -57,11 +57,11 @@ for e in $(env); do
 done
 
 sleep 5
-curl -s -XGET 'http://admin:admin@172.18.0.1:3000/api/datasources' --header "Content-Type: application/json"
-[ $? ] && curl -s -XPOST 'http://admin:admin@172.18.0.1:3000/api/datasources' --header 'Content-Type: application/json' --data '{"Name":"influx","type":"influxdb","url":"http://172.18.0.1:8086","access":"direct","isDefault":true,"database":"influx","user":    "root","password":"root"}'
+curl -s -XGET 'http://admin:admin@grafana:3000/api/datasources' --header "Content-Type: application/json"
+[ $? ] && curl -s -XPOST 'http://admin:admin@grafana:3000/api/datasources' --header 'Content-Type: application/json' --data '{"Name":"influx","type":"influxdb","url":"http://grafana:8086","access":"direct","isDefault":true,"database":"influx","user":    "root","password":"root"}'
 
 for dashboard in $(ls /dashboards/*.json); do
-   curl -s -XPOST 'http://admin:admin@172.18.0.1:3000/api/dashboards/db' -H 'Content-Type: application/json; charset=utf-8' -H 'Accept: application/json' --data-binary @"$dashboard"
+   curl -s -XPOST 'http://admin:admin@grafana:3000/api/dashboards/db' -H 'Content-Type: application/json; charset=utf-8' -H 'Accept: application/json' --data-binary @"$dashboard"
 done
 
 chown -R jmxtrans "$JMXTRANS_HOME"
