@@ -24,6 +24,8 @@ services:
       - /etc/timezone:/etc/timezone:ro
   grafana:
     image: grafana/grafana
+    depends_on:
+        - influxdb
     ports:
       - "3000:3000"
     environment:
