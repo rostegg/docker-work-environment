@@ -1,15 +1,15 @@
 version: '3'
 
 services:
-  # machine name_role(DEV)Number(1)
-  lm_dev1_seed:
+  # machine name_cs(Cassandra)_role(DEV)Number(1)
+  lm_cs_dev1_seed:
     image: cassandra
     command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
     volumes:
-      - ./data/lm_dev1_seed:/var/lib/cassandra
+      - ./data/lm_cs_dev1_seed:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=lm_dev_cluster
-      - CASSANDRA_SEEDS=lm_dev1_seed
+      - CASSANDRA_SEEDS=lm_cs_dev1_seed
       - MAX_HEAP_SIZE=1024M
       - HEAP_NEWSIZE=200M
       # bind for outside connection
@@ -22,18 +22,18 @@ services:
       memlock: 6291456
       nproc: 32768
       nofile: 100000
-  lm_dev2:
+  lm_cs_dev2:
     image: cassandra
     command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
     volumes:
-      - ./data/lm_dev2:/var/lib/cassandra
+      - ./data/lm_cs_dev2:/var/lib/cassandra
     environment:
       - CASSANDRA_CLUSTER_NAME=lm_dev_cluster
-      - CASSANDRA_SEEDS=lm_dev1_seed
+      - CASSANDRA_SEEDS=lm_cs_dev1_seed
       - MAX_HEAP_SIZE=1024M
       - HEAP_NEWSIZE=200M
     depends_on:
-      - lm_dev1_seed
+      - lm_cs_dev1_seed
     ulimits:
       memlock: 6291456
       nproc: 32768
