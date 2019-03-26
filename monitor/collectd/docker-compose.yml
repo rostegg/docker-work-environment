@@ -20,6 +20,8 @@ services:
       - ./influxdb-volume:/var/lib/influxdb
       - ./config/influxdb.conf:/etc/influxdb/influxdb.conf
       - ./config/types.db:/usr/share/collectd/types.db:ro
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
   grafana:
     image: grafana/grafana
     ports:
@@ -29,3 +31,6 @@ services:
       - GF_SECURITY_ADMIN_PASSWORD=admin
     volumes:
       - /var/lib/grafana
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+            
