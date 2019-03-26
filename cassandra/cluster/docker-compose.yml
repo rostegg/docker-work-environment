@@ -1,0 +1,48 @@
+version: '3'
+
+services:
+  # machine name_role(DEV)Number(1)
+  lm_dev1_seed:
+    image: cassandra
+    command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 0; fi && /docker-entrypoint.sh cassandra -f'
+    volumes:
+      - ./data/lm_dev1_seed:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=lm_dev_cluster
+      - CASSANDRA_SEEDS=lm_dev1_seed
+      - MAX_HEAP_SIZE=1024M
+      - HEAP_NEWSIZE=200M
+      # bind for outside connection
+      - CASSANDRA_RPC_ADDRES=192.168.0.101
+    ports:
+      - "9042:9042"
+      - "9160:9160"
+    ulimits:
+      # use  memlock: -1 for unlim
+      memlock: 6291456
+      nproc: 32768
+      nofile: 100000
+  lm_dev2:
+    image: cassandra
+    command: bash -c 'if [ -z "$$(ls -A /var/lib/cassandra/)" ] ; then sleep 60; fi && /docker-entrypoint.sh cassandra -f'
+    volumes:
+      - ./data/lm_dev2:/var/lib/cassandra
+    environment:
+      - CASSANDRA_CLUSTER_NAME=lm_dev_cluster
+      - CASSANDRA_SEEDS=lm_dev1_seed
+      - MAX_HEAP_SIZE=1024M
+      - HEAP_NEWSIZE=200M
+    depends_on:
+      - lm_dev1_seed
+    ulimits:
+      memlock: 6291456
+      nproc: 32768
+      nofile: 100000
+  # for cluster monitoring
+  portainer:
+    image: portainer/portainer
+    volumes:
+        - /var/run/docker.sock:/var/run/docker.sock
+        - ./data/portainer-data:/data
+    ports:
+        - "10001:9000"
