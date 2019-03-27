@@ -1,0 +1,39 @@
+version: '3'
+
+services:
+  # machine name_slr_role(DEV)Number(1)
+  lm_slr_dev1:
+    image: solr
+    ports:
+      - "8981:8983"
+    environment:
+      - ZK_HOST=lm_zoo_dev1:2181,lm_zoo_dev2:2181
+    depends_on:
+      - lm_zoo_dev1
+      - lm_zoo_dev2
+
+  lm_slr_dev2:
+    image: solr
+    ports:
+      - "8982:8983"
+    environment:
+      - ZK_HOST=lm_zoo_dev1:2181,lm_zoo_dev2:2181
+    depends_on:
+      - lm_zoo_dev1
+      - lm_zoo_dev2
+
+  lm_zoo_dev1:
+    image: zookeeper
+    ports:
+      - "2181:2181"
+    environment:
+      ZOO_MY_ID: 1
+      ZOO_SERVERS: server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
+
+  lm_zoo_dev2:
+    image: zookeeper
+    ports:
+      - "2182:2181"
+    environment:
+      ZOO_MY_ID: 2
+      ZOO_SERVERS: server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
