@@ -1,0 +1,33 @@
+version: '3'
+
+services:
+  # machine name_es_role(DEV)Number(1)
+  lm_es_dev1_seed:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
+    privileged: true
+    environment:
+      - cluster.name=elasticsearch-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+    ulimits:
+      memlock: -1
+    volumes:
+      - ./data/lm_es_dev1_seed:/usr/share/elasticsearch/data
+    ports:
+      - "9200:9200"
+  lm_es_dev2:
+    image: docker.elastic.co/elasticsearch/elasticsearch:6.6.2
+    privileged: true
+    environment:
+      - cluster.name=elasticsearch-cluster
+      - bootstrap.memory_lock=true
+      - "ES_JAVA_OPTS=-Xms512m -Xmx512m"
+      - "discovery.zen.ping.unicast.hosts=lm_es_dev1_seed"
+    depends_on:
+      - lm_es_dev1_seed
+    links:
+      - lm_es_dev1_seed
+    ulimits:
+      memlock: -1
+    volumes:
+      - ./data/lm_es_dev2:/usr/share/elasticsearch/data
