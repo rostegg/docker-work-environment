@@ -30,24 +30,24 @@ services:
   jmxtrans:
     image: jmxtrans/jmxtrans:latest
     depends_on:
-        - influxdb
+      - influxdb
     links:
-        - influxdb
-        - grafana
+      - influxdb
+      - grafana
     environment:
-        - JMX_HOST_TEST=localhost
-        - JMX_PORT_TEST=17900
-        - JMX_ALIAS_TEST=TEST
-        - INFLUXDB_USER=admin
-        - INFLUXDB_PASSWORD=admin
-        - INFLUXDB_NAME=jmx-data-influx
-        - INFLUXDB_URL=http://influxdb:8086
+      - JMX_HOST_TEST=localhost
+      - JMX_PORT_TEST=17900
+      - JMX_ALIAS_TEST=TEST
+      - INFLUXDB_USER=admin
+      - INFLUXDB_PASSWORD=admin
+      - INFLUXDB_NAME=jmx-data-influx
+      - INFLUXDB_URL=http://influxdb:8086
     volumes:
-        - /etc/localtime:/etc/localtime:ro
-        - /etc/timezone:/etc/timezone:ro
-        - ./config/influxdb.json.tmpl:/var/lib/jmxtrans/influxdb.json.tmpl
-        - ./config/grafanadashboard.json.tmpl:/dashboards/grafanadashboard.json.tmpl
-        - ./scripts/docker-entrypoint.sh:/docker-entrypoint.sh
+      - /etc/localtime:/etc/localtime:ro
+      - /etc/timezone:/etc/timezone:ro
+      - ./config/influxdb.json.tmpl:/var/lib/jmxtrans/influxdb.json.tmpl
+      - ./config/grafanadashboard.json.tmpl:/dashboards/grafanadashboard.json.tmpl
+      - ./scripts/docker-entrypoint.sh:/docker-entrypoint.sh
   chronograf:
     image: chronograf
     volumes:
