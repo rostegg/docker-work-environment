@@ -1,6 +1,6 @@
 #!/bin/bash
 
-docker kill redis_db_dev_1
+docker kill redis_redisdb_dev_1
 docker kill redis_redis_commander_1
 
 read -e -p $'\e[31mRemove data folder? ("NO" by default):\e[0m ' REMOVE_DATA
