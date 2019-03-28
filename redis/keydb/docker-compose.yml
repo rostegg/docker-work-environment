@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  keydb_dev:
+    image: eqalpha/keydb
+    ports: 
+      - "6379:6379"
+    volumes:
+      - ./data/keydb:/data
+      - ./config/keydb.conf:/usr/local/etc/redis/redis.conf
+    command: keydb-server /usr/local/etc/redis/redis.conf
+
+  redis_commander:
+    image: rediscommander/redis-commander:latest
+    environment:
+      - REDIS_HOSTS=local:keydb_dev:6379
+    ports:
+      - "8091:8081"
+    links:
+      - keydb_dev
+    depends_on:
+      - keydb_dev
