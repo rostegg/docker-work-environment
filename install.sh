@@ -48,10 +48,16 @@ function select_shortcut_name {
     esac
 }
 
-declare -a RUNNERS_NAMES=("run.sh" "kill.sh")
+read -e -p $'\e[32mGenerate kill shortcuts? ("YES" by default):\e[0m ' GENERATE_KILL_SHORTCUTS
+
+if [ -z "$GENERATE_KILL_SHORTCUTS" ]
+then
+    declare -a RUNNERS_NAMES=("run.sh" "kill.sh")
+else
+    declare -a RUNNERS_NAMES=("run.sh")
+fi
 
 AVALIABLE_RUNNERS_REGEX=$(join_by \| "${RUNNERS_NAMES[@]}")
-
 
 SHORTCUT_TEMPLATE=$(cat <<-END
 [Desktop Entry]
