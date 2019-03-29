@@ -1,8 +1,9 @@
 #!/bin/bash
 
-docker kill kafka_lm_kafka_dev_1
-docker kill kafka_lm_zoo_dev_1
-docker kill kafka_kafka_ui_1
+docker kill singlenode_lm_kafka_dev_1
+docker kill singlenode_lm_zoo_dev_1
+docker kill singlenode_schema_registry_1
+docker kill singlenode_rest_proxy_1
 
 read -e -p $'\e[31mRemove data folder? ("NO" by default):\e[0m ' REMOVE_DATA
 
