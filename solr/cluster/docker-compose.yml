@@ -27,13 +27,13 @@ services:
     ports:
       - "2181:2181"
     environment:
-      ZOO_MY_ID: 1
-      ZOO_SERVERS: server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
+      - ZOO_MY_ID=1
+      - ZOO_SERVERS=server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
 
   lm_zoo_dev2:
     image: zookeeper
     ports:
       - "2182:2181"
     environment:
-      ZOO_MY_ID: 2
-      ZOO_SERVERS: server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
+      - ZOO_MY_ID=2
+      - ZOO_SERVERS=server.1=lm_zoo_dev1:2888:3888 server.2=lm_zoo_dev2:2888:3888
