@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  # machine name_slr_role(DEV)Number(1)
+  lm_slr_dev:
+    image: solr
+    ports:
+      - "8981:8983"
+    entrypoint:
+      - docker-entrypoint.sh
+      - solr-precreate
+      - dev_core
