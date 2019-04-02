@@ -4,7 +4,7 @@ clear
 
 
 echo -e "Removed \033[0;31m/usr/share/icons/hicolor/scalable/apps/micons8-docker.svg\033[0m icon"
-sudo rm /usr/share/icons/hicolor/scalable/apps/icons8-docker.svg
+sudo rm -f /usr/share/icons/hicolor/scalable/apps/icons8-docker.svg
 
 function join_by { 
     local IFS="$1"; shift; echo "$*"; 
@@ -29,6 +29,6 @@ INSTALL_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && 
 while IFS=  read -r -d $'\0'; do
     RUN_SCRIPT_PATH=$(realpath $REPLY)
     select_shortcut_name $RUN_SCRIPT_PATH
-    rm ${HOME}/Desktop/${SHORTCUT_NAME}.desktop
+    rm -f ${HOME}/Desktop/${SHORTCUT_NAME}.desktop
     echo -e "Removed \033[0;31m${HOME}/Desktop/${SHORTCUT_NAME}.desktop\033[0m shortcut"
 done < <(find . -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
