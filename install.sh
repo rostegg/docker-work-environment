@@ -30,8 +30,8 @@ then
     sudo chmod g+rwx "$HOME/.docker" -R
 fi
 
+sudo cp icons8-docker.svg /usr/share/icons/hicolor/scalable/apps/
 echo -e "Copy \033[0;32micons8-docker.svg\033[0m to \033[0;32m/usr/share/icons/hicolor/scalable/apps\033[0m"
-cp icons8-docker.svg /usr/share/icons/hicolor/scalable/apps/
 
 function join_by { 
     local IFS="$1"; shift; echo "$*"; 

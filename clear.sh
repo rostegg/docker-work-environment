@@ -3,8 +3,8 @@
 clear
 
 
-echo -e "Removing \033[0;31/usr/share/icons/hicolor/scalable/apps/micons8-docker.svg\033[0m icon"
-rm /usr/share/icons/hicolor/scalable/apps/icons8-docker.svg
+echo -e "Removed \033[0;31m/usr/share/icons/hicolor/scalable/apps/micons8-docker.svg\033[0m icon"
+sudo rm /usr/share/icons/hicolor/scalable/apps/icons8-docker.svg
 
 function join_by { 
     local IFS="$1"; shift; echo "$*"; 
