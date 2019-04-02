@@ -48,7 +48,7 @@ function select_shortcut_name {
     esac
 }
 
-function build_application_shortcut {
+function build_application_shortcuts {
     while IFS=  read -r -d $'\0'; do
         RUN_SCRIPT_PATH=$(realpath $REPLY)
         SCRIPT_DIR=${RUN_SCRIPT_PATH%/*}
@@ -73,7 +73,7 @@ function build_application_shortcut {
     done < <(find $INSTALL_SCRIPT_DIR -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
 }
 
-function build_desktop_shortcut {
+function build_desktop_shortcuts {
     while IFS=  read -r -d $'\0'; do
         RUN_SCRIPT_PATH=$(realpath $REPLY)
         select_shortcut_name $RUN_SCRIPT_PATH
@@ -83,7 +83,7 @@ function build_desktop_shortcut {
     done < <(find $INSTALL_SCRIPT_DIR -regextype posix-egrep -regex ".*(${AVALIABLE_RUNNERS_REGEX})$" -print0)
 }
 
-echo -e "\033[0;32mSelect environmetn mode\033[0m"
+echo -e "\033[0;32mSelect environment mode\033[0m"
 
 ENV_MODES=("Application mode" "Desktop shortcuts mode")
 APP_FOLDER="${HOME}/.local/share/applications"
@@ -154,8 +154,8 @@ INSTALL_SCRIPT_DIR="$( cd "$( dirname "${BASH_SOURCE[0]}" )" >/dev/null 2>&1 && 
 
 if [ "$ENV_MODE" = "Application mode" ]
 then
-    build_application_shortcut
+    build_application_shortcuts
 elif [ "$ENV_MODE" = "Desktop shortcuts mode" ] 
 then
-    build_desktop_shortcut
+    build_desktop_shortcuts
 fi
